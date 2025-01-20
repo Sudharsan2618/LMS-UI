@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import signUpImage from "../assets/images/login.png";
 import { signup } from "../Store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const SignUp = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-
+    const { isSigned, loading } = useSelector(state => state.user)
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
     };
@@ -19,7 +19,12 @@ const SignUp = () => {
         setConfirmPasswordVisible(!confirmPasswordVisible);
     };
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (isSigned) {
+            navigate("/login")
+        }
+    }, [isSigned])
 
     // Yup validation schema
     const validationSchema = Yup.object({
@@ -46,7 +51,6 @@ const SignUp = () => {
         },
         validationSchema,
         onSubmit: (values) => {
-            console.log("Form submitted:", values);
             const { fullName, email, password } = values
             dispatch(signup({ email, password, username: fullName }))
         },
@@ -163,8 +167,8 @@ const SignUp = () => {
                             </div>
                         </div>
 
-                        <button type="submit" className="btn btn-primary w-full py-2">
-                            Sign Up
+                        <button type="submit" disabled={loading} className="btn btn-primary w-full py-2">
+                            {loading ? "Loading..." : "Sign Up"}
                         </button>
                         {/* Already have an account? */}
                         <div className="mt-4 text-center">

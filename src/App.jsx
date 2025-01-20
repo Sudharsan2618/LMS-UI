@@ -4,7 +4,8 @@ import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/Signup";
 import { Toaster } from "react-hot-toast";
-import ProtectedRoute from "./api/Components/ProtectedRoute";
+import ProtectedRoute from "./Components/ProtectedRoute";
+import Questions from "./Pages/Questions";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/questions" element={<Questions />} />
       </Routes>
       <Toaster />
     </>
