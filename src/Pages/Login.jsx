@@ -8,6 +8,7 @@ import { Link, redirect, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const { loading } = useSelector(state => state.user)
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -44,7 +45,7 @@ const Login = () => {
     if (user) {
       setTimeout(() => {
 
-        navigate("/");
+        navigate("/questions");
       }, 3000)
     }
   }, [user, navigate]);
@@ -138,9 +139,9 @@ const Login = () => {
             <button
               type="submit"
               className="btn btn-primary w-full py-2"
-            // disabled={!formik.isValid || formik.isSubmitting}
+              disabled={!formik.isValid || formik.isSubmitting || loading}
             >
-              Login
+              {loading ? "Loading..." : "Login"}
             </button>
             {/* Don't have an account? */}
             <div className="mt-4 text-center">

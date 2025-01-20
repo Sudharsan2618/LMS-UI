@@ -36,6 +36,7 @@ const userSlice = createSlice({
         token: null,
         loading: false,
         error: null,
+        isSigned: false
     },
     reducers: {
         logout: (state) => {
@@ -55,7 +56,7 @@ const userSlice = createSlice({
                 state.user = action.payload.user;
                 state.token = action.payload.token;
                 toast.success(action.payload.message)
-
+                localStorage.setItem("user", JSON.stringify(state.user))
             })
             .addCase(login.rejected, (state, action) => {
                 state.loading = false;
@@ -66,13 +67,16 @@ const userSlice = createSlice({
             .addCase(signup.pending, (state) => {
                 state.loading = true;
                 state.error = null;
+                state.isSigned = false
             })
             .addCase(signup.fulfilled, (state, action) => {
                 state.loading = false;
+                state.isSigned = true
                 toast.success(action.payload.message)
             })
             .addCase(signup.rejected, (state, action) => {
                 state.loading = false;
+                state.isSigned = false
                 state.error = action.payload;
                 toast.error(action.payload.error)
 
