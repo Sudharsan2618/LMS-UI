@@ -17,6 +17,23 @@ export const fetchQuestions = createAsyncThunk(
         }
     }
 );
+// answer Questions API
+export const answerQuestion = createAsyncThunk(
+    "questions/answerQuestion",
+    async ({ user_id, question_id, selected_option_id, tab_id }, { rejectWithValue }) => {
+        try {
+            const response = await api.post(`https://lms-be-do05.onrender.com/api/initial_assessment_response`, {
+                user_id,
+                question_id,
+                selected_option_id,
+                tab_id
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || "An error occurred");
+        }
+    }
+);
 
 
 const questionsSlice = createSlice({
@@ -41,6 +58,19 @@ const questionsSlice = createSlice({
                 state.tabName = action.payload.tab_name || "";
             })
             .addCase(fetchQuestions.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            });
+        builder
+            // answer Questions
+            .addCase(answerQuestion.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(answerQuestion.fulfilled, (state, action) => {
+                state.loading = false;
+            })
+            .addCase(answerQuestion.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });
