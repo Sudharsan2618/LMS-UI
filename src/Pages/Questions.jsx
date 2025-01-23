@@ -3,6 +3,8 @@ import { ChevronDown, ChevronUp, ArrowLeft, ArrowRight } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { answerQuestion, fetchQuestions } from "../Store/questionsSlice";
 import infoImage from "../assets/images/login.svg";
+import toast from "react-hot-toast";
+import loader from "../assets/images/loader.gif"
 
 const Questions = () => {
     const [expandedQuestion, setExpandedQuestion] = useState(1);
@@ -38,7 +40,10 @@ const Questions = () => {
         if (validateTab()) {
             setActiveTab((prev) => (prev < 5 ? prev + 1 : 5));
         } else {
-            alert("Please answer all questions in this tab before proceeding.");
+            toast.error(
+
+                "Please answer all questions in this tab before proceeding."
+            )
         }
     };
 
@@ -56,11 +61,14 @@ const Questions = () => {
     };
 
     // Handle answer submission
-    const submitAnswer = async (questionId) => {
+    const submitAnswer = async (questionId, selected) => {
         const selectedOption = selectedOptions[questionId];
 
-        if (!selectedOption) {
-            alert("Please select an option before submitting.");
+        if (!selectedOption && !selected) {
+            toast.error(
+
+                "Please select an option before submitting."
+            )
             return;
         }
 
@@ -112,7 +120,7 @@ const Questions = () => {
                                             {question.options.map((option) => (
                                                 <div key={option.option_id} className="flex items-center space-x-2">
                                                     <label className="flex items-center justify-center gap-2 cursor-pointer">
-                                                        <input
+                                                        <input className="accent-transparent"
                                                             type="radio"
                                                             name={`question-${question.question_id}`}
                                                             checked={
@@ -129,7 +137,7 @@ const Questions = () => {
                                         </div>
                                         <div className="flex justify-end">
                                             <button
-                                                onClick={() => submitAnswer(question.question_id)}
+                                                onClick={() => submitAnswer(question.question_id, question.selected_option?.selected_option_id)}
                                                 className="mt-4 px-4 py-2 bg-primary-dark text-white rounded"
                                             >
                                                 Submit
@@ -173,7 +181,7 @@ const Questions = () => {
 
             {loading && (
                 <div className="fixed inset-0 bg-primary-light flex items-center justify-center">
-                    <p>Loading...</p>
+                    <img src={loader} alt="loader" />
                 </div>
             )}
         </div>
