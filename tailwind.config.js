@@ -40,6 +40,16 @@ export default {
         yellowGlow:
           "0 4px 6px -1px rgba(255, 215, 0, 0.2), 0 2px 4px -2px rgba(255, 215, 0, 0.1)",
       },
+
+      keyframes: {
+        'ping-cube': {
+          '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+          '50%': { transform: 'scale(1.5)', opacity: '0.5' },
+        },
+      },
+      animation: {
+        'ping-cube': 'ping-cube 0.8s infinite',
+      },
     },
   },
   plugins: [

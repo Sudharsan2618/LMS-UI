@@ -1,4 +1,4 @@
-import { Route, Router, Routes } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
@@ -15,22 +15,46 @@ function App() {
   return (
     <>
       <Routes>
-        {/* <Route
-          path="/"
-          element={
-            <ProtectedRoute allowedRoles={["admin"]} redirectPath="/login" />
-          }
-        >
-          <Route index element={<Home />} />
-        </Route> */}
+        {/* Public routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/questions" element={<Questions />} />
+
+        {/* Protected routes */}
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="courses" element={<Courses />} />
-          <Route path="courses/:courseId" element={<Course />} />
-          <Route path="courses/:courseId/enroll" element={<Enroll />} />
+          {/* Role-based protected routes */}
+          <Route
+            index
+            element={
+              <ProtectedRoute allowedRoles={["admin", "user"]} redirectPath="/login">
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="courses"
+            element={
+              <ProtectedRoute allowedRoles={["user", "admin"]} redirectPath="/login">
+                <Courses />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="courses/:courseId"
+            element={
+              <ProtectedRoute allowedRoles={["user", "admin"]} redirectPath="/login">
+                <Course />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="courses/:courseId/enroll"
+            element={
+              <ProtectedRoute allowedRoles={["user"]} redirectPath="/login">
+                <Enroll />
+              </ProtectedRoute>
+            }
+          />
         </Route>
       </Routes>
       <Toaster />

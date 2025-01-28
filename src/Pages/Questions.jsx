@@ -1,15 +1,19 @@
+
 import React, { useEffect, useState } from "react";
 import { ChevronDown, ChevronUp, ArrowLeft, ArrowRight } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { answerQuestion, fetchQuestions } from "../Store/questionsSlice";
 import infoImage from "../assets/images/login.svg";
+import loader from "../assets/images/loader.gif";
+import Loader from "../Components/Loader";
 import toast from "react-hot-toast";
-import loader from "../assets/images/loader.gif"
+import { useNavigate } from "react-router-dom";
 
 const Questions = () => {
     const [expandedQuestion, setExpandedQuestion] = useState(1);
     const [selectedOptions, setSelectedOptions] = useState({});
     const [activeTab, setActiveTab] = useState(1);
+    const [errors, setErrors] = useState({});  // State to store error messages
 
     const { questions, tabName, loading } = useSelector((state) => state.questions);
     const dispatch = useDispatch();
@@ -33,30 +37,58 @@ const Questions = () => {
             ...prev,
             [questionId]: option,
         }));
+
+        // Clear the error message when the option is selected
+        setErrors((prev) => ({
+            ...prev,
+            [questionId]: null,
+            tab: selectedOptions.length == 5 && null
+        }));
     };
+
+    const navigate = useNavigate()
 
     // Handle next tab navigation
     const handleNext = () => {
         if (validateTab()) {
             setActiveTab((prev) => (prev < 5 ? prev + 1 : 5));
-        } else {
-            toast.error(
+            setErrors((prev) => ({
+                ...prev,
+                tab: null
+            }));
+            if (activeTab === 5) {
+                toast.success("Let's begin")
 
-                "Please answer all questions in this tab before proceeding."
-            )
+                setTimeout(() => {
+                    navigate("/courses")
+                }, 2000)
+            }
+        } else {
+            setErrors((prev) => ({
+                ...prev,
+                tab: "Please answer all questions in this tab before proceeding."
+            }));
         }
     };
 
     // Handle previous tab navigation
     const handlePrevious = () => {
         setActiveTab((prev) => (prev > 1 ? prev - 1 : 1));
+
+        if (!validateTab()) {
+            setErrors((prev) => ({
+                ...prev,
+                tab: null
+            }));
+        }
     };
 
     // Validate all questions answered in the tab
     const validateTab = () => {
         return questions.every(
             (question) =>
-                selectedOptions[question.question_id] || question.selected_option?.selected_option_id
+                question.selected_option?.selected_option_id
+            // selectedOptions[question.question_id] || question.selected_option?.selected_option_id
         );
     };
 
@@ -65,25 +97,25 @@ const Questions = () => {
         const selectedOption = selectedOptions[questionId];
 
         if (!selectedOption && !selected) {
-            toast.error(
-
-                "Please select an option before submitting."
-            )
+            setErrors((prev) => ({
+                ...prev,
+                [questionId]: "Please select an option before submitting."
+            }));
             return;
         }
 
         const userId = JSON.parse(localStorage.getItem("user"))?.user_id;
         const selectedOptionId = selectedOption.option_id;
 
-
         dispatch(
             answerQuestion({
-                user_id: userId, question_id: questionId, selected_option_id: selectedOptionId, tab_id: activeTab
-
+                user_id: userId,
+                question_id: questionId,
+                selected_option_id: selectedOptionId,
+                tab_id: activeTab,
             })
         );
     };
-
 
     return (
         <div className="min-h-screen bg-neutral-light p-8">
@@ -135,6 +167,9 @@ const Questions = () => {
                                             ))}
 
                                         </div>
+                                        {errors[question.question_id] && (
+                                            <div className="mt-2 text-red-500 text-sm">{errors[question.question_id]}</div>
+                                        )}
                                         <div className="flex justify-end">
                                             <button
                                                 onClick={() => submitAnswer(question.question_id, question.selected_option?.selected_option_id)}
@@ -161,6 +196,10 @@ const Questions = () => {
                     </div>
                 </div>
 
+                {errors.tab && (
+                    <div className="mt-4 text-red-500 text-sm">{errors.tab}</div>
+                )}
+
                 <div className="flex justify-between mt-8">
                     <button
                         disabled={activeTab === 1}
@@ -170,7 +209,7 @@ const Questions = () => {
                         <ArrowLeft /> Previous
                     </button>
                     <button
-                        disabled={activeTab === 5}
+                        disabled={!validateTab()}
                         onClick={handleNext}
                         className="flex items-center gap-2 px-4 py-2 bg-gray-200 rounded disabled:opacity-5"
                     >
@@ -180,8 +219,8 @@ const Questions = () => {
             </div>
 
             {loading && (
-                <div className="fixed inset-0 bg-primary-light flex items-center justify-center">
-                    <img src={loader} alt="loader" />
+                <div className="fixed inset-0 bg-white flex items-center justify-center">
+                    <Loader />
                 </div>
             )}
         </div>
@@ -189,3 +228,4 @@ const Questions = () => {
 };
 
 export default Questions;
+

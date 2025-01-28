@@ -8,7 +8,6 @@ const Layout = () => {
             <Header />
 
             <div className="flex-grow overflow-auto">
-
                 <Outlet />
             </div>
         </div>
