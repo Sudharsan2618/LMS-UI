@@ -27,7 +27,7 @@ const CourseCard = ({ course }) => {
                 <div className="flex justify-between items-center">
                     <div className="w-2/3 bg-gray-200 rounded-full h-2.5">
                         <div
-                            className="bg-blue-600 h-2.5 rounded-full transition-all duration-300"
+                            className="bg-primary h-2.5 rounded-full transition-all duration-300"
                             style={{ width: `${course.course_progress}%` }}
                         ></div>
                     </div>

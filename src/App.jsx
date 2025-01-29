@@ -18,7 +18,11 @@ function App() {
         {/* Public routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/questions" element={<Questions />} />
+        <Route path="/questions" element={
+          <ProtectedRoute allowedRoles={["admin", "user"]} redirectPath="/login">
+            <Questions />
+          </ProtectedRoute>
+        } />
 
         {/* Protected routes */}
         <Route path="/" element={<Layout />}>
@@ -55,6 +59,10 @@ function App() {
               </ProtectedRoute>
             }
           />
+        </Route>
+
+        <Route path="*" element={<>Page not found</>}>
+
         </Route>
       </Routes>
       <Toaster />
