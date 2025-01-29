@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatDuration } from '../Utils/courseUtils';
+import { formatDuration } from '../utils/courseUtils';
 import RatingStars from './RatingStars';
 
 const CourseCard = ({ course }) => {
