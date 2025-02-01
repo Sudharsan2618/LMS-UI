@@ -36,7 +36,8 @@ const userSlice = createSlice({
         token: null,
         loading: false,
         error: null,
-        isSigned: false
+        isSigned: false,
+        assessmentCompleted: false
     },
     reducers: {
         logout: (state) => {
@@ -55,8 +56,15 @@ const userSlice = createSlice({
                 state.loading = false;
                 state.user = action.payload.user;
                 state.token = action.payload.token;
-                toast.success(action.payload.message)
-                localStorage.setItem("user", JSON.stringify(state.user))
+                toast.success(action.payload.message);
+
+                localStorage.setItem("user", JSON.stringify(state.user));
+
+                const isAssessmentCompleted = action.payload.user.initial_assessment === "completed";
+                state.assessmentCompleted = isAssessmentCompleted;
+
+                // Store as a proper JSON boolean string
+                localStorage.setItem("hasCompletedQuestions", JSON.stringify(isAssessmentCompleted));
             })
             .addCase(login.rejected, (state, action) => {
                 state.loading = false;

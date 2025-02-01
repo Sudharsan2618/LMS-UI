@@ -44,7 +44,6 @@ const Login = () => {
   useEffect(() => {
     if (user) {
       setTimeout(() => {
-
         navigate("/questions");
       }, 3000)
     }
@@ -54,7 +53,7 @@ const Login = () => {
   return (
     <div className="flex min-h-screen h-[100vh] flex-col md:flex-row">
       {/* Left Side */}
-      <div className="w-full h-full md:w-1/2 DEFAULT text-white flex items-center justify-center ">
+      <div className="w-full  h-full md:w-1/2 DEFAULT  text-white flex items-center justify-center ">
         <img
           className="h-full w-full object-fill "
           src={loginImage}

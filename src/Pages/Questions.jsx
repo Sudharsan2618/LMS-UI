@@ -7,7 +7,7 @@ import infoImage from "../assets/images/login.svg";
 import loader from "../assets/images/loader.gif";
 import Loader from "../Components/Loader";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Questions = () => {
     const [expandedQuestion, setExpandedQuestion] = useState(1);
@@ -58,9 +58,10 @@ const Questions = () => {
             }));
             if (activeTab === 5) {
                 toast.success("Let's begin")
+                localStorage.setItem("hasCompletedQuestions", true);
 
                 setTimeout(() => {
-                    navigate("/courses")
+                    navigate("/")
                 }, 2000)
             }
         } else {
@@ -116,6 +117,15 @@ const Questions = () => {
             })
         );
     };
+
+
+    const hasCompletedQuestions = JSON.parse(localStorage.getItem("hasCompletedQuestions") || "false");
+
+    // If questions are completed, prevent access and redirect to dashboard or home
+    if (hasCompletedQuestions) {
+        return <Navigate to="/" replace />;
+    }
+
 
     return (
         <div className="min-h-screen bg-neutral-light p-8">

@@ -1,25 +1,41 @@
-import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+// import React from "react";
+// import { Navigate, Outlet } from "react-router-dom";
 
-const ProtectedRoute = ({ redirectPath = '/login', allowedRoles = [], children }) => {
-    const { loading } = useSelector(state => state.user); // Assuming `user` is part of Redux state
-    const user = JSON.parse(localStorage.getItem("user"))
+// const ProtectedRoute = ({ redirectPath = "/login", allowedRoles = [], children }) => {
+//     const user = JSON.parse(localStorage.getItem("user"));
+//     const hasCompletedQuestions = JSON.parse(localStorage.getItem("hasCompletedQuestions") || "false"); // Ensure boolean conversion
 
-    // Display loading spinner or message when loading
-    if (loading) {
-        return <div>Loading...</div>; // Replace this with a spinner component if needed
+//     if (!user) {
+//         return <Navigate to={redirectPath} replace />;
+//     }
+
+
+//     if (!hasCompletedQuestions) {
+//         return <Navigate to="/questions" replace />;
+//     }
+
+//     return children;
+// };
+
+// export default ProtectedRoute;
+
+
+import React, { Children } from "react";
+import { Navigate, Outlet } from "react-router-dom";
+
+const ProtectedRoute = ({ redirectPath = "/login", allowedRoles = [], children }) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const hasCompletedQuestions = JSON.parse(localStorage.getItem("hasCompletedQuestions") || "false");
+
+    if (!user) {
+        return <Navigate to={redirectPath} replace />;
     }
 
-    // If user exists and their role is not in allowedRoles, redirect to unauthorized
-    // if (user && allowedRoles.length && !allowedRoles.includes(user.role)) {
-    //     return <Navigate to="/unauthorized" />;
-    // }
+    if (!hasCompletedQuestions && window.location.pathname !== "/questions") {
+        return <Navigate to="/questions" replace />;
+    }
 
-    // If no user is found, redirect to login
-
-
-    return user ? children : <Navigate to={redirectPath} />;
+    return children;
 };
 
 export default ProtectedRoute;

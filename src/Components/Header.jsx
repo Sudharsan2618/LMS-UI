@@ -25,6 +25,7 @@ const Header = () => {
     const handleLogout = () => {
         // dispatch(logout())
         localStorage.removeItem("user")
+        localStorage.removeItem("hasCompletedQuestions")
         navigate("/login")
 
 
@@ -87,7 +88,6 @@ const Header = () => {
                 </ul>
 
                 <div className="relative" ref={dropdownRef}>
-                    {/* Profile Button */}
                     <button
                         onClick={() => setIsOpen(!isOpen)}
                         className="size-10 bg-white rounded-full font-bold capitalize shadow-md flex items-center justify-center"
@@ -95,7 +95,6 @@ const Header = () => {
                         {user?.username?.charAt(0)}
                     </button>
 
-                    {/* Dropdown Menu */}
                     {isOpen && (
                         <ul className="absolute right-0 mt-2 w-36 bg-white shadow-lg rounded overflow-hidden">
                             <li>

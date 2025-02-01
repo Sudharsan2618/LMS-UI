@@ -10,14 +10,18 @@ import Courses from "./Pages/Courses";
 import Course from "./Pages/Course";
 import Enroll from "./Pages/Enroll";
 import Layout from "./Pages/Layout";
+import AuthRoute from "./Components/AuthRoute";
 
 function App() {
   return (
     <>
       <Routes>
         {/* Public routes */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route element={<AuthRoute />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Route>
+
         <Route path="/questions" element={
           <ProtectedRoute allowedRoles={["admin", "user"]} redirectPath="/login">
             <Questions />
