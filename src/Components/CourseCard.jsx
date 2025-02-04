@@ -2,10 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formatDuration } from '../utils/courseUtils';
 import RatingStars from './RatingStars';
+import { useNavigate } from 'react-router-dom';
 
 const CourseCard = ({ course }) => {
+
+    const navigate = useNavigate();
+
+    const handleCourseRedirect = (courseId) => {
+        navigate(`/courses/${courseId}/enroll`);
+    };
+
     return (
-        <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl">
+        <div onClick={() => handleCourseRedirect(course.course_id)} className="bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl cursor-pointer">
             <div className="p-6">
                 <h3
                     title={course.course_name}
