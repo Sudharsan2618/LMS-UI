@@ -83,7 +83,7 @@ const Header = () => {
                         <NavLink className={({ isActive }) =>
                             isActive ? 'text-primary' : 'text-black'
                         }
-                            to={"/e-books"}>E-books</NavLink>
+                            to={"/ebooks"}>E-books</NavLink>
                     </li>
                 </ul>
 

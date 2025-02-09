@@ -3,6 +3,22 @@ import api from "../api/api";
 import toast from 'react-hot-toast';
 
 // Fetch Questions API
+export const finishAssessment = createAsyncThunk(
+    "questions/finishAssessment",
+    async ({ userId }, { rejectWithValue }) => {
+        try {
+            const response = await api.get(`https://lms-be-do05.onrender.com/api/user-initial-assessment-details`, {
+                params: {
+                    user_id: userId,
+                },
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || "An error occurred");
+        }
+    }
+);
+// Fetch Questions API
 export const fetchQuestions = createAsyncThunk(
     "questions/fetchQuestions",
     async ({ tabId, userId }, { rejectWithValue }) => {
@@ -43,9 +59,25 @@ const questionsSlice = createSlice({
         tabName: "",
         loading: false,
         error: null,
+        allSuccess: false
     },
     reducers: {},
     extraReducers: (builder) => {
+        builder
+            // finishAssessment 
+            .addCase(finishAssessment.pending, (state) => {
+                state.allSuccess = true;
+                state.error = null;
+            })
+            .addCase(finishAssessment.fulfilled, (state, action) => {
+                toast.success("Let's begin")
+                localStorage.setItem("hasCompletedQuestions", true);
+                state.allSuccess = false;
+            })
+            .addCase(finishAssessment.rejected, (state, action) => {
+                state.allSuccess = false;
+                state.error = action.payload;
+            });
         builder
             // Fetch Questions
             .addCase(fetchQuestions.pending, (state) => {

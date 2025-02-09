@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { ChevronDown, ChevronUp, ArrowLeft, ArrowRight } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { answerQuestion, fetchQuestions } from "../Store/questionsSlice";
+import { answerQuestion, fetchQuestions, finishAssessment } from "../Store/questionsSlice";
 import infoImage from "../assets/images/login.svg";
 import loader from "../assets/images/loader.gif";
 import Loader from "../Components/Loader";
@@ -15,7 +15,7 @@ const Questions = () => {
     const [activeTab, setActiveTab] = useState(1);
     const [errors, setErrors] = useState({});  // State to store error messages
 
-    const { questions, tabName, loading } = useSelector((state) => state.questions);
+    const { questions, tabName, loading, allSuccess } = useSelector((state) => state.questions);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -57,12 +57,12 @@ const Questions = () => {
                 tab: null
             }));
             if (activeTab === 5) {
-                toast.success("Let's begin")
                 localStorage.setItem("hasCompletedQuestions", true);
 
-                setTimeout(() => {
-                    navigate("/")
-                }, 2000)
+                dispatch(finishAssessment({
+                    userId: JSON.parse(localStorage.getItem("user"))?.user_id,
+                }))
+
             }
         } else {
             setErrors((prev) => ({
@@ -71,6 +71,14 @@ const Questions = () => {
             }));
         }
     };
+
+    useEffect(() => {
+        if (allSuccess) {
+            setTimeout(() => {
+                navigate("/")
+            }, 2000)
+        }
+    }, [allSuccess])
 
     // Handle previous tab navigation
     const handlePrevious = () => {

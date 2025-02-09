@@ -11,6 +11,7 @@ import Course from "./Pages/Course";
 import Enroll from "./Pages/Enroll";
 import Layout from "./Pages/Layout";
 import AuthRoute from "./Components/AuthRoute";
+import Ebooks from "./Pages/Ebooks";
 
 function App() {
   return (
@@ -36,6 +37,14 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={["admin", "user"]} redirectPath="/login">
                 <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/ebooks"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "user"]} redirectPath="/login">
+                <Ebooks />
               </ProtectedRoute>
             }
           />
