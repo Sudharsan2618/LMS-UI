@@ -39,8 +39,12 @@ export default function Chatbot() {
                     <div className="flex-grow overflow-y-auto p-4 space-y-4 bg-neutral-light">
                         {messages.map((m, index) => (
                             <div key={index} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
-                                <div className={`max-w-[75%] px-4 py-2 rounded-lg shadow-md ${m.role === "user" ? "bg-primary text-white" : "bg-secondary text-gray-800"}`}>
-                                    {m.content}
+                                <div className={`max-w-[75%] whitespace-break-spaces px-4 py-2 rounded shadow-md ${m.role === "user" ? "bg-primary text-white" : "bg-secondary text-gray-800"}`}>
+                                  
+                                  <p className=" text-sm">
+                                    
+                                      {m.content}
+                                    </p>
                                 </div>
                             </div>
                         ))}
