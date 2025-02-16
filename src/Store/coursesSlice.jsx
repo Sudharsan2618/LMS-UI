@@ -30,12 +30,29 @@ export const fetchCourseDetails = createAsyncThunk(
   }
 );
 
+// Fetch Course Content API
+export const fetchCourseContent = createAsyncThunk(
+  "courses/fetchCourseContent",
+  async ({ userId, courseId }, { rejectWithValue }) => {
+    try {
+      const response = await api.post("https://lms-be-do05.onrender.com/api/course-content", {
+        user_id: userId,
+        course_id: courseId,
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "An error occurred");
+    }
+  }
+);
+
 // Course Slice
 const coursesSlice = createSlice({
   name: "courses",
   initialState: {
     courses: [],
     courseDetails: null,
+    courseContent: null,
     loading: false,
     error: null,
   },
@@ -65,6 +82,19 @@ const coursesSlice = createSlice({
         state.courseDetails = action.payload;
       })
       .addCase(fetchCourseDetails.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // Fetch Course Content
+      .addCase(fetchCourseContent.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchCourseContent.fulfilled, (state, action) => {
+        state.loading = false;
+        state.courseContent = action.payload.data[0]?.get_course_data?.course_content;
+      })
+      .addCase(fetchCourseContent.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

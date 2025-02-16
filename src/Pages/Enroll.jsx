@@ -1,7 +1,7 @@
 import { fetchCourseDetails } from "../Store/coursesSlice";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { BookOpen, BarChart, Target, UserCheck, ClipboardList } from "lucide-react";
@@ -18,6 +18,10 @@ const Enroll = () => {
             dispatch(fetchCourseDetails(courseId));
         }
     }, [dispatch, courseId]);
+    const navigate = useNavigate()
+    const handleCourseRedirect = () => {
+        navigate(`/courses/${courseId}`)
+    }
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-white text-gray-900">
@@ -46,7 +50,7 @@ const Enroll = () => {
                         {loading ? (
                             <Skeleton width={140} height={45} />
                         ) : (
-                            <button className="bg-primary hover:bg-primary-dark text-white font-bold py-3 px-6 rounded-lg text-lg transition-transform transform hover:scale-105">
+                            <button onClick={handleCourseRedirect} className="bg-primary hover:bg-primary-dark text-white font-bold py-3 px-6 rounded-lg text-lg transition-transform transform hover:scale-105">
                                 Enroll Now
                             </button>
                         )}
