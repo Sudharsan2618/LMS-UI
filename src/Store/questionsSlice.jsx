@@ -7,17 +7,17 @@ export const finishAssessment = createAsyncThunk(
     "questions/finishAssessment",
     async ({ userId }, { rejectWithValue }) => {
         try {
-            const response = await api.get(`https://lms-be-do05.onrender.com/api/user-initial-assessment-details`, {
-                params: {
-                    user_id: userId,
-                },
-            });
+            const response = await api.post(
+                `https://lms-be-do05.onrender.com/api/user-initial-assessment-details`,
+                { user_id: userId }
+            );
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data || "An error occurred");
         }
     }
 );
+
 // Fetch Questions API
 export const fetchQuestions = createAsyncThunk(
     "questions/fetchQuestions",
