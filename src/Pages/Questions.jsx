@@ -55,20 +55,27 @@ const Questions = () => {
     const handleNext = () => {
         if (validateTab()) {
             setActiveTab((prev) => (prev < 5 ? prev + 1 : 5));
-            setErrors((prev) => ({ ...prev, tab: null }));
+            setErrors((prev) => ({
+                ...prev,
+                tab: null,
+            }));
             if (activeTab === 5) {
                 localStorage.setItem("hasCompletedQuestions", true);
-                dispatch(finishAssessment({
-                    userId: JSON.parse(localStorage.getItem("user"))?.user_id,
-                }));
+
+                dispatch(
+                    finishAssessment({
+                        userId: JSON.parse(localStorage.getItem("user"))?.user_id,
+                    })
+                );
             }
         } else {
             setErrors((prev) => ({
                 ...prev,
-                tab: "Please answer all questions in this tab before proceeding."
+                tab: "Please answer all questions in this tab before proceeding.",
             }));
         }
     };
+
 
     useEffect(() => {
         if (!allSuccess) return;

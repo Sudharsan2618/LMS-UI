@@ -8,8 +8,8 @@ export const finishAssessment = createAsyncThunk(
     async ({ userId }, { rejectWithValue }) => {
         try {
             const response = await api.post(
-                "https://lms-be-do05.onrender.com/api/user-initial-assessment-details",
-                { user_id: userId } // Sending userId in the request body
+                `https://lms-be-do05.onrender.com/api/user-initial-assessment-details`,
+                { user_id: userId }
             );
             return response.data;
         } catch (error) {
