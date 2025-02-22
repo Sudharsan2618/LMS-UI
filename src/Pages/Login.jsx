@@ -40,14 +40,17 @@ const Login = () => {
 
 
   const navigate = useNavigate();
-
   useEffect(() => {
-    if (user) {
-      setTimeout(() => {
-        navigate("/questions");
-      }, 3000)
-    }
-  }, [user, navigate]);
+    if (!user) return;
+    console.log(user, "user");
+
+    const timer = setTimeout(() => {
+      navigate("/questions");
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [user]);
+
 
 
   return (
@@ -106,7 +109,7 @@ const Login = () => {
                 Password
               </label>
               <div className="relative">
-                <input
+                <input autoComplete=""
                   type={passwordVisible ? "text" : "password"}
                   id="password"
                   name="password"

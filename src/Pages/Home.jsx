@@ -128,17 +128,17 @@ const Home = () => {
               <h3 className="text-xl font-bold mb-4">Quick Links</h3>
               <ul className="space-y-2">
                 <li>
-                  <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+                  <Link to="#" className="text-gray-400 hover:text-white transition-colors">
                     Courses
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+                  <Link to="#" className="text-gray-400 hover:text-white transition-colors">
                     Certifications
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+                  <Link to="#" className="text-gray-400 hover:text-white transition-colors">
                     Virtual Internships
                   </Link>
                 </li>
@@ -147,13 +147,13 @@ const Home = () => {
             <div>
               <h3 className="text-xl font-bold mb-4">Follow Us</h3>
               <div className="flex space-x-4">
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Link to="#" className="text-gray-400 hover:text-white transition-colors">
                   Twitter
                 </Link>
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Link to="#" className="text-gray-400 hover:text-white transition-colors">
                   LinkedIn
                 </Link>
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Link to="#" className="text-gray-400 hover:text-white transition-colors">
                   Facebook
                 </Link>
               </div>

@@ -1,24 +1,7 @@
 import { useEffect, useState } from "react"
 import { ChevronDown, ChevronRight } from "lucide-react"
 
-const courseStructure = [
-    {
-        id: 1,
-        title: "Objectives And Outcomes",
-        subtitles: [{ id: 1, title: "Why Python ?" }],
-    },
-    {
-        id: 2,
-        title: "Getting Start With Python",
-        subtitles: [
-            { id: 1, title: "Python Syntax" },
-            { id: 2, title: "Python Commands" },
-            { id: 3, title: "Python Variables" },
-            { id: 4, title: "Python Keywords" },
-        ],
-    },
-    // Add more sections as needed
-]
+
 
 function transformCourseData(data) {
     const courseMap = {};

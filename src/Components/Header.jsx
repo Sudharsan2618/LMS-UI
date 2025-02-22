@@ -23,7 +23,7 @@ const Header = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const handleLogout = () => {
-        // dispatch(logout())
+        dispatch(logout())
         localStorage.removeItem("user")
         localStorage.removeItem("hasCompletedQuestions")
         navigate("/login")

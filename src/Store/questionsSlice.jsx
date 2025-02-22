@@ -7,17 +7,17 @@ export const finishAssessment = createAsyncThunk(
     "questions/finishAssessment",
     async ({ userId }, { rejectWithValue }) => {
         try {
-            const response = await api.get(`https://lms-be-do05.onrender.com/api/user-initial-assessment-details`, {
-                params: {
-                    user_id: userId,
-                },
-            });
+            const response = await api.post(
+                "https://lms-be-do05.onrender.com/api/user-initial-assessment-details",
+                { user_id: userId } // Sending userId in the request body
+            );
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data || "An error occurred");
         }
     }
 );
+
 // Fetch Questions API
 export const fetchQuestions = createAsyncThunk(
     "questions/fetchQuestions",
@@ -96,14 +96,14 @@ const questionsSlice = createSlice({
         builder
             // answer Questions
             .addCase(answerQuestion.pending, (state) => {
-                state.loading = true;
+                // state.loading = true;
                 state.error = null;
             })
             .addCase(answerQuestion.fulfilled, (state, action) => {
-                state.loading = false;
+                // state.loading = false;
             })
             .addCase(answerQuestion.rejected, (state, action) => {
-                state.loading = false;
+                // state.loading = false;
                 state.error = action.payload;
             });
     },
