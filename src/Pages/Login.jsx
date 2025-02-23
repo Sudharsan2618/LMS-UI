@@ -42,7 +42,6 @@ const Login = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (!user) return;
-    console.log(user, "user");
 
     const timer = setTimeout(() => {
       navigate("/questions");

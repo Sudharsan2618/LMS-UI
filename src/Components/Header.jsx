@@ -98,6 +98,13 @@ const Header = () => {
                     {isOpen && (
                         <ul className="absolute right-0 mt-2 w-36 bg-white shadow-lg rounded overflow-hidden">
                             <li>
+
+
+                                <Link
+                                    className=" block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100 transition"
+
+                                    to={"/profile"}>Profile</Link>
+
                                 <button
                                     className="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100 transition"
                                     onClick={handleLogout}

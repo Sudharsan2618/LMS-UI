@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const API_URL = "https://chatbot-backend-wvi9.onrender.com/query"; 
+const API_URL = "https://chatbot-backend-wvi9.onrender.com/query";
 
 export function useCustomChat() {
   const [messages, setMessages] = useState([]);
@@ -13,17 +13,17 @@ export function useCustomChat() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!input.trim()) return; 
+    if (!input.trim()) return;
 
     const newMessage = { role: "user", content: input };
-    setMessages((prev) => [...prev, newMessage]); 
+    setMessages((prev) => [...prev, newMessage]);
     setInput("");
-   
+
     setMessages((prev) => [
       ...prev,
-      { role: "assistant", content: "Thinking..." } 
+      { role: "assistant", content: "Thinking..." }
     ]);
-    
+
     setIsLoading(true);
 
     try {
@@ -31,22 +31,22 @@ export function useCustomChat() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          query: input, 
-          file_key: "none" 
+          query: input,
+          file_key: "none"
         }),
       });
 
       const data = await response.json();
 
       setMessages((prev) => [
-        ...prev.slice(0, -1), 
-        { role: "assistant", content: data.result }, 
+        ...prev.slice(0, -1),
+        { role: "assistant", content: data.result },
       ]);
     } catch (error) {
       console.error("Error fetching AI response:", error);
       setMessages((prev) => [
-        ...prev.slice(0, -1), 
-        { role: "assistant", content: "Sorry, something went wrong. Please try again." } 
+        ...prev.slice(0, -1),
+        { role: "assistant", content: "Sorry, something went wrong. Please try again." }
       ]);
     } finally {
       setIsLoading(false);

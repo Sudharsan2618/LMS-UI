@@ -87,6 +87,7 @@ import { lazy, Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import AuthRoute from "./Components/AuthRoute";
+import StudentProfile from "./Pages/StudentProfile";
 
 const Home = lazy(() => import("./Pages/Home"));
 const Login = lazy(() => import("./Pages/Login"));
@@ -159,6 +160,14 @@ function App() {
               element={
                 <ProtectedRoute allowedRoles={["user"]} redirectPath="/login">
                   <Enroll />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="profile"
+              element={
+                <ProtectedRoute allowedRoles={["user"]} redirectPath="/login">
+                  <StudentProfile />
                 </ProtectedRoute>
               }
             />
