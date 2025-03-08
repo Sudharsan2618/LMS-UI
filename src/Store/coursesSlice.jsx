@@ -151,6 +151,21 @@ export const fetchCourseContent = createAsyncThunk(
     }
   }
 );
+// courseEnroll
+export const courseEnroll = createAsyncThunk(
+  "courses/courseEnroll",
+  async ({ userId, courseId }, { rejectWithValue }) => {
+    try {
+      const response = await api.post("https://lms-be-do05.onrender.com/api/user_enroll", {
+        user_id: userId,
+        course_id: courseId,
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "An error occurred");
+    }
+  }
+);
 
 // Update Course Progress API
 export const updateCourseProgress = createAsyncThunk(
@@ -182,7 +197,8 @@ const coursesSlice = createSlice({
     progress: {}, // Track progress
     loading: false,
     error: null,
-    courseProgress: null
+    courseProgress: null,
+    isEnrolled: false
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -227,6 +243,22 @@ const coursesSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      // courseEnroll
+      .addCase(courseEnroll.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.isEnrolled = false
+      })
+      .addCase(courseEnroll.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isEnrolled = true
+      })
+      .addCase(courseEnroll.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.isEnrolled = false
+      })
+
       // Update Course Progress
       .addCase(updateCourseProgress.fulfilled, (state, action) => {
         state.progress[action.payload.subtitleId] = action.payload.progress;

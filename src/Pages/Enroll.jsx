@@ -1,4 +1,4 @@
-import { fetchCourseDetails } from "../Store/coursesSlice";
+import { courseEnroll, fetchCourseDetails } from "../Store/coursesSlice";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -10,7 +10,7 @@ import placeHolder from "../assets/images/login.svg"
 const Enroll = () => {
     const { courseId } = useParams();
     const dispatch = useDispatch();
-    const { courseDetails, loading } = useSelector((state) => state.courses);
+    const { courseDetails, loading, isEnrolled } = useSelector((state) => state.courses);
     const course = courseDetails?.course;
 
     useEffect(() => {
@@ -20,8 +20,16 @@ const Enroll = () => {
     }, [dispatch, courseId]);
     const navigate = useNavigate()
     const handleCourseRedirect = () => {
-        navigate(`/courses/${courseId}`)
+        const user = JSON.parse(localStorage.getItem("user"));
+        dispatch(courseEnroll({ userId: user.user_id, courseId }));
     }
+
+    useEffect(() => {
+        if (isEnrolled) {
+
+            navigate(`/courses/${courseId}`)
+        }
+    })
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-white text-gray-900">
