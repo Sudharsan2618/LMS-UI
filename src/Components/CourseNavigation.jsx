@@ -113,15 +113,25 @@ function getSubtitleProgressMap(courseProgress) {
     }, {}) || {};
 }
 
-export default function CourseNavigation({ courseProgress, content, onContentSelect, activeContentId }) {
+export default function CourseNavigation({ courseProgress, courseStatus, content, onContentSelect, activeContentId }) {
     const [courseStructure, setCourseStructure] = useState([]);
     const [expandedSections, setExpandedSections] = useState(new Set());
     const [progressMap, setProgressMap] = useState({});
 
     useEffect(() => {
         setCourseStructure(transformCourseData(content));
+
+        console.log(courseProgress, "courseProgress");
+
         setProgressMap(getSubtitleProgressMap(courseProgress));
     }, [content, courseProgress]);
+
+    const [status, setStatus] = useState()
+    useEffect(() => {
+        if (courseStatus?.data) {
+            setStatus([...courseStatus.data].sort((a, b) => a.course_master_breakdown_id - b.course_master_breakdown_id));
+        }
+    }, [courseStatus]);
 
     const toggleSection = (sectionId) => {
         setExpandedSections(prev => {
@@ -131,11 +141,15 @@ export default function CourseNavigation({ courseProgress, content, onContentSel
         });
     };
 
+
+
+
+
     return (
         <nav className="p-4 bg-white">
             <h2 className="text-xl font-bold mb-4 text-primary">Course Contents</h2>
             <ul>
-                {courseStructure.map(({ id, title, subtitles }) => (
+                {courseStructure.map(({ id, title, subtitles }, i) => (
                     <li key={id} className="mb-4 border-b pb-2 last:border-none">
                         <div className="flex items-center justify-between w-full">
                             <button
@@ -146,15 +160,16 @@ export default function CourseNavigation({ courseProgress, content, onContentSel
                                 <div className="w-12 h-12 p-1">
                                     <CircularProgressbar
                                         strokeWidth={10}
-                                        value={progressMap[id] || 0}
-                                        text={`${Math.round(progressMap[id] || 0)}%`}
+                                        value={status?.[id - 1]?.progress_percentage * 1 || 0}
+                                        text={`${Math.round(status?.[id - 1]?.progress_percentage || 0)}%`}
                                         styles={buildStyles({
                                             textSize: "30px",
-                                            pathColor: (progressMap[id] || 0) === 100 ? "#4CAF50" : "#FFC107",
+                                            pathColor: (status?.[id - 1]?.progress_percentage * 1 || 0) === 100 ? "#4CAF50" : "#FFC107",
                                             textColor: "#000",
                                             trailColor: "#ddd",
                                         })}
                                     />
+
                                 </div>
                             </button>
                         </div>

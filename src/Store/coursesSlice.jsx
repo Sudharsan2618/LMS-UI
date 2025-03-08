@@ -124,10 +124,11 @@ export const fetchCourses = createAsyncThunk(
 // Fetch Course Details API
 export const fetchCourseDetails = createAsyncThunk(
   "courses/fetchCourseDetails",
-  async (courseId, { rejectWithValue }) => {
+  async ({ courseId, userId }, { rejectWithValue }) => {
     try {
       const response = await api.post("https://lms-be-do05.onrender.com/api/course/enrollment_details", {
         course_id: courseId,
+        user_id: userId
       });
       return response.data;
     } catch (error) {
@@ -156,7 +157,21 @@ export const courseEnroll = createAsyncThunk(
   "courses/courseEnroll",
   async ({ userId, courseId }, { rejectWithValue }) => {
     try {
-      const response = await api.post("https://lms-be-do05.onrender.com/api/user_enroll", {
+      const response = await api.post("https://lms-be-do05.onrender.com/api/course/user_enroll", {
+        user_id: userId,
+        course_id: courseId,
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "An error occurred");
+    }
+  }
+);
+export const userCourseStatus = createAsyncThunk(
+  "courses/userCourseStatus",
+  async ({ userId, courseId }, { rejectWithValue }) => {
+    try {
+      const response = await api.post("https://lms-be-do05.onrender.com/api/userCourseStatus", {
         user_id: userId,
         course_id: courseId,
       });
@@ -177,7 +192,7 @@ export const updateCourseProgress = createAsyncThunk(
         course_id: courseId,
         course_subtitle_id: subtitleId,
         course_mastertitle_breakdown_id: masterId,
-        course_progress: courseProgress || 1,
+        // course_progress: 1,
         course_subtitle_progress: Math.round(progress) || 1,
       });
       return { subtitleId, progress: Math.round(progress) }; // Store in Redux
@@ -198,9 +213,15 @@ const coursesSlice = createSlice({
     loading: false,
     error: null,
     courseProgress: null,
-    isEnrolled: false
+    isEnrolled: false,
+    courseStatus: [],
+    progressUpdated: false
   },
-  reducers: {},
+  reducers: {
+    resetProgressUpdated: (state) => {
+      state.progressUpdated = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // Fetch Courses
@@ -258,15 +279,29 @@ const coursesSlice = createSlice({
         state.error = action.payload;
         state.isEnrolled = false
       })
+      // userCourseStatus
+      .addCase(userCourseStatus.pending, (state) => {
+        state.error = null;
+      })
+      .addCase(userCourseStatus.fulfilled, (state, action) => {
+        state.courseStatus = action.payload
+      })
+      .addCase(userCourseStatus.rejected, (state, action) => {
+        state.error = action.payload;
+      })
 
       // Update Course Progress
       .addCase(updateCourseProgress.fulfilled, (state, action) => {
         state.progress[action.payload.subtitleId] = action.payload.progress;
+        state.progressUpdated = true
       })
       .addCase(updateCourseProgress.rejected, (state, action) => {
         toast.error("Failed to update progress");
+        state.progressUpdated = false
       });
+
   },
 });
 
 export default coursesSlice.reducer;
+export const { resetProgressUpdated } = coursesSlice.actions;

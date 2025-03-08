@@ -50,16 +50,16 @@ const CourseCard = ({ course }) => {
     );
 };
 
-CourseCard.propTypes = {
-    course: PropTypes.shape({
-        course_name: PropTypes.string.isRequired,
-        course_short_description: PropTypes.string.isRequired,
-        course_duration_hours: PropTypes.number.isRequired,
-        course_duration_minutes: PropTypes.number.isRequired,
-        course_type: PropTypes.string.isRequired,
-        course_progress: PropTypes.number.isRequired,
-        rating: PropTypes.number.isRequired
-    }).isRequired
-};
+// CourseCard.propTypes = {
+//     course: PropTypes.shape({
+//         course_name: PropTypes.string.isRequired,
+//         course_short_description: PropTypes.string.isRequired,
+//         course_duration_hours: PropTypes.number.isRequired,
+//         course_duration_minutes: PropTypes.number.isRequired,
+//         course_type: PropTypes.string.isRequired,
+//         course_progress: PropTypes.number.isRequired,
+//         rating: PropTypes.number.isRequired
+//     }).isRequired
+// };
 
 export default CourseCard

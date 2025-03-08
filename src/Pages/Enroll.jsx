@@ -12,16 +12,22 @@ const Enroll = () => {
     const dispatch = useDispatch();
     const { courseDetails, loading, isEnrolled } = useSelector((state) => state.courses);
     const course = courseDetails?.course;
-
     useEffect(() => {
+        const user = JSON.parse(localStorage.getItem("user"));
         if (courseId) {
-            dispatch(fetchCourseDetails(courseId));
+            dispatch(fetchCourseDetails({ courseId, userId: user.user_id }));
         }
     }, [dispatch, courseId]);
     const navigate = useNavigate()
     const handleCourseRedirect = () => {
         const user = JSON.parse(localStorage.getItem("user"));
-        dispatch(courseEnroll({ userId: user.user_id, courseId }));
+
+        if (!courseDetails?.course?.enroll) {
+
+            dispatch(courseEnroll({ userId: user.user_id, courseId }));
+        } else {
+            navigate(`/courses/${courseId}`)
+        }
     }
 
     useEffect(() => {
@@ -29,7 +35,9 @@ const Enroll = () => {
 
             navigate(`/courses/${courseId}`)
         }
-    })
+    }, [isEnrolled])
+
+    console.log(courseDetails, "courseDetails?.enroll");
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-white text-gray-900">
@@ -59,7 +67,7 @@ const Enroll = () => {
                             <Skeleton width={140} height={45} />
                         ) : (
                             <button onClick={handleCourseRedirect} className="bg-primary hover:bg-primary-dark text-white font-bold py-3 px-6 rounded-lg text-lg transition-transform transform hover:scale-105">
-                                Enroll Now
+                                {courseDetails?.course?.enroll ? "Continue Learning" : "Enroll Now"}
                             </button>
                         )}
                     </div>
