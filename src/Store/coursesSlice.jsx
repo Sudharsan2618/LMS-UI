@@ -7,7 +7,7 @@
 //   "courses/fetchCourses",
 //   async (_, { rejectWithValue }) => {
 //     try {
-//       const response = await api.get("https://lms-be-do05.onrender.com/api/course-master");
+//       const response = await api.get("https://lms-be-sqpa.onrender.com/api/course-master");
 //       return response.data;
 //     } catch (error) {
 //       return rejectWithValue(error.response?.data || "An error occurred");
@@ -20,7 +20,7 @@
 //   "courses/fetchCourseDetails",
 //   async (courseId, { rejectWithValue }) => {
 //     try {
-//       const response = await api.post("https://lms-be-do05.onrender.com/api/course/enrollment_details", {
+//       const response = await api.post("https://lms-be-sqpa.onrender.com/api/course/enrollment_details", {
 //         course_id: courseId,
 //       });
 //       return response.data;
@@ -35,7 +35,7 @@
 //   "courses/fetchCourseContent",
 //   async ({ userId, courseId }, { rejectWithValue }) => {
 //     try {
-//       const response = await api.post("https://lms-be-do05.onrender.com/api/course-content", {
+//       const response = await api.post("https://lms-be-sqpa.onrender.com/api/course-content", {
 //         user_id: userId,
 //         course_id: courseId,
 //       });
@@ -113,7 +113,7 @@ export const fetchCourses = createAsyncThunk(
   "courses/fetchCourses",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.get("https://lms-be-do05.onrender.com/api/course-master");
+      const response = await api.get("https://lms-be-sqpa.onrender.com/api/course-master");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "An error occurred");
@@ -126,7 +126,7 @@ export const fetchCourseDetails = createAsyncThunk(
   "courses/fetchCourseDetails",
   async ({ courseId, userId }, { rejectWithValue }) => {
     try {
-      const response = await api.post("https://lms-be-do05.onrender.com/api/course/enrollment_details", {
+      const response = await api.post("https://lms-be-sqpa.onrender.com/api/course/enrollment_details", {
         course_id: courseId,
         user_id: userId
       });
@@ -142,7 +142,7 @@ export const fetchCourseContent = createAsyncThunk(
   "courses/fetchCourseContent",
   async ({ userId, courseId }, { rejectWithValue }) => {
     try {
-      const response = await api.post("https://lms-be-do05.onrender.com/api/course-content", {
+      const response = await api.post("https://lms-be-sqpa.onrender.com/api/course-content", {
         user_id: userId,
         course_id: courseId,
       });
@@ -157,7 +157,7 @@ export const courseEnroll = createAsyncThunk(
   "courses/courseEnroll",
   async ({ userId, courseId }, { rejectWithValue }) => {
     try {
-      const response = await api.post("https://lms-be-do05.onrender.com/api/course/user_enroll", {
+      const response = await api.post("https://lms-be-sqpa.onrender.com/api/course/user_enroll", {
         user_id: userId,
         course_id: courseId,
       });
@@ -171,7 +171,7 @@ export const userCourseStatus = createAsyncThunk(
   "courses/userCourseStatus",
   async ({ userId, courseId }, { rejectWithValue }) => {
     try {
-      const response = await api.post("https://lms-be-do05.onrender.com/api/userCourseStatus", {
+      const response = await api.post("https://lms-be-sqpa.onrender.com/api/userCourseStatus", {
         user_id: userId,
         course_id: courseId,
       });
@@ -187,7 +187,7 @@ export const updateCourseProgress = createAsyncThunk(
   "courses/updateCourseProgress",
   async ({ userId, courseId, subtitleId, masterId, progress, courseProgress }, { rejectWithValue }) => {
     try {
-      const response = await api.post("https://lms-be-do05.onrender.com/api/course-progress", {
+      const response = await api.post("https://lms-be-sqpa.onrender.com/api/course-progress", {
         user_id: userId,
         course_id: courseId,
         course_subtitle_id: subtitleId,
