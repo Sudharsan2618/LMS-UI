@@ -79,11 +79,11 @@ const Enroll = () => {
                         <Skeleton width={400} height={300} />
                     ) : (
                         <img
-                            // src={course?.image || "https://via.placeholder.com/400x300"}
-                            src={placeHolder}
+                            src={course?.course_profile_image || "https://via.placeholder.com/400x300"}
+                            // src={placeHolder}
                             alt="Course Image"
                             className=" w-[30vw]"
-                        // className=" w-[30vw] rounded-lg shadow-lg"
+                            className=" w-[30vw] rounded-lg shadow-lg"
                         />
                     )}
                 </div>

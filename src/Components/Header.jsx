@@ -59,7 +59,7 @@ const Header = () => {
 
 
     return (
-        <header className=' px-10 bg-primary-light flex items-center justify-between'>
+        <header className=' px-10 bg-gradient-to-b from-yellow-100 to-yellow-50  flex items-center justify-between'>
             <div className="size-20">
                 <Link to={"/"} className='w-full h-full'>
                     <img src={Logo} className='w-full h-full object-contain' alt="Logo" />

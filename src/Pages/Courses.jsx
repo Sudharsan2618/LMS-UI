@@ -14,7 +14,6 @@ const Courses = () => {
     }, []);
 
     useEffect(() => {
-        console.log(coursesData, "courseData");
 
         setFilteredCourses(coursesData)
     }, [coursesData])
