@@ -88,6 +88,7 @@ import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import AuthRoute from "./Components/AuthRoute";
 import StudentProfile from "./Pages/StudentProfile";
+import Jobs from "./Pages/Jobs";
 
 const Home = lazy(() => import("./Pages/Home"));
 const Login = lazy(() => import("./Pages/Login"));
@@ -98,6 +99,8 @@ const Course = lazy(() => import("./Pages/Course"));
 const Enroll = lazy(() => import("./Pages/Enroll"));
 const Layout = lazy(() => import("./Pages/Layout"));
 const Ebooks = lazy(() => import("./Pages/Ebooks"));
+const JobsPage = lazy(() => import("./Pages/Jobs"));
+
 
 function App() {
   return (
@@ -168,6 +171,14 @@ function App() {
               element={
                 <ProtectedRoute allowedRoles={["user"]} redirectPath="/login">
                   <StudentProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="jobs"
+              element={
+                <ProtectedRoute allowedRoles={["admin", "user"]} redirectPath="/login">
+                  <JobsPage />
                 </ProtectedRoute>
               }
             />

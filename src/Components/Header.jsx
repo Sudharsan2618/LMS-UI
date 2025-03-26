@@ -85,6 +85,13 @@ const Header = () => {
                         }
                             to={"/ebooks"}>E-books</NavLink>
                     </li>
+                    <li>
+                        <NavLink
+                            className={({ isActive }) => 
+                                (isActive ? 'text-primary' : 'text-black')
+                        }
+                            to={"/jobs"}>Jobs</NavLink>
+                    </li>
                 </ul>
 
                 <div className="relative" ref={dropdownRef}>
