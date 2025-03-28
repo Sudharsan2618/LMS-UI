@@ -84,7 +84,7 @@
 //         const updateProgress = (progress) => {
 //             const user = JSON.parse(localStorage.getItem("user"));
 //             if (user && currentContent) {
-//                 fetch("https://lms-be-sqpa.onrender.com/api/course-progress", {
+//                 fetch("http://54.209.80.251:5000/api/course-progress", {
 //                     method: "POST",
 //                     headers: {
 //                         "Content-Type": "application/json",

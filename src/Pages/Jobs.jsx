@@ -9,7 +9,7 @@ const Jobs = () => {
 
     const fetchJobs = async () => {
         try {
-            const response = await axios.get("https://lms-be-sqpa.onrender.com/api/jobs");
+            const response = await axios.get("http://54.209.80.251:5000/api/jobs");
             setJobs(response.data.jobs || []);
         } catch (error) {
             console.error("Error fetching jobs:", error);

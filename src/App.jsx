@@ -88,7 +88,6 @@ import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import AuthRoute from "./Components/AuthRoute";
 import StudentProfile from "./Pages/StudentProfile";
-import Jobs from "./Pages/Jobs";
 
 const Home = lazy(() => import("./Pages/Home"));
 const Login = lazy(() => import("./Pages/Login"));

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://lms-be-sqpa.onrender.com/api",
+  baseURL: "http://54.209.80.251:5000/api",
 });
 
 export default api;

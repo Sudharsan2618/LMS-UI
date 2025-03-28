@@ -8,7 +8,7 @@ export const finishAssessment = createAsyncThunk(
     async ({ userId }, { rejectWithValue }) => {
         try {
             const response = await api.post(
-                `https://lms-be-sqpa.onrender.com/api/user-initial-assessment-details`,
+                `http://54.209.80.251:5000/api/user-initial-assessment-details`,
                 { user_id: userId }
             );
             return response.data;
@@ -23,7 +23,7 @@ export const fetchQuestions = createAsyncThunk(
     "questions/fetchQuestions",
     async ({ tabId, userId }, { rejectWithValue }) => {
         try {
-            const response = await api.post(`https://lms-be-sqpa.onrender.com/api/initial_assessment_questions`, {
+            const response = await api.post(`http://54.209.80.251:5000/api/initial_assessment_questions`, {
                 tab_id: tabId,
                 user_id: userId,
             });
@@ -38,7 +38,7 @@ export const answerQuestion = createAsyncThunk(
     "questions/answerQuestion",
     async ({ user_id, question_id, selected_option_id, tab_id }, { rejectWithValue }) => {
         try {
-            const response = await api.post(`https://lms-be-sqpa.onrender.com/api/initial_assessment_response`, {
+            const response = await api.post(`http://54.209.80.251:5000/api/initial_assessment_response`, {
                 user_id,
                 question_id,
                 selected_option_id,
