@@ -28,7 +28,7 @@ export default function StudentProfile() {
     async function fetchUserDetails() {
         try {
             setLoading(true);
-            const response = await fetch("http://54.209.80.251:5000/api/userdetails", {
+            const response = await fetch("https://lms-be-sqpa.onrender.com/api/userdetails", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ user_id: userId })
@@ -61,7 +61,7 @@ export default function StudentProfile() {
 
     const handleSave = async () => {
         try {
-            const response = await fetch("http://54.209.80.251:5000/api/userdetails/update", {
+            const response = await fetch("https://lms-be-sqpa.onrender.com/api/userdetails/update", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(editData)
