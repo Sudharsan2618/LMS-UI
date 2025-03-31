@@ -45,4 +45,16 @@ function mergeConfig(nextConfig, userConfig) {
   }
 }
 
+module.exports = {
+  experimental: {
+    swcPlugins: [
+      ['@swc/plugin-styled-components', {}]
+    ]
+  },
+  // If using styled-components:
+  compiler: {
+    styledComponents: true
+  }
+}
+
 export default nextConfig
