@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "build": "NODE_OPTIONS='--max-old-space-size=4096' next build"
+    "lint": "next lint"
   },
   "dependencies": {
     "@hookform/resolvers": "latest",
@@ -38,19 +38,18 @@
     "@radix-ui/react-toggle-group": "^1.1.1",
     "@radix-ui/react-tooltip": "^1.1.6",
     "autoprefixer": "^10.4.20",
-    "axios": "latest",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
+    "date-fns": "4.1.0",
     "embla-carousel-react": "8.5.1",
     "input-otp": "1.4.1",
-    "lodash": "latest",
     "lucide-react": "^0.454.0",
-    "my-v0-project": "file:",
-    "next": "^14.2.26",
-    "next-themes": "^0.4.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "next": "15.2.4",
+    "next-themes": "latest",
+    "react": "^19",
+    "react-day-picker": "8.10.1",
+    "react-dom": "^19",
     "react-hook-form": "latest",
     "react-resizable-panels": "^2.1.7",
     "recharts": "2.15.0",
@@ -58,10 +57,11 @@
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.6",
-    "zod": "latest"
+    "zod": "latest",
+    "lodash": "latest",
+    "axios": "latest"
   },
   "devDependencies": {
-    "@types/lodash": "^4.17.16",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",

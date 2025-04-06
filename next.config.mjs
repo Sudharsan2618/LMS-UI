@@ -1,57 +1,14 @@
-// let userConfig = undefined
-// try {
-//   userConfig = await import('./v0-user-next.config')
-// } catch (e) {
-//   // ignore error
-// }
-
-// /** @type {import('next').NextConfig} */
-// const nextConfig = {
-//   eslint: {
-//     ignoreDuringBuilds: true,
-//   },
-//   typescript: {
-//     ignoreBuildErrors: true,
-//   },
-//   images: {
-//     unoptimized: true,
-//   },
-//   experimental: {
-//     webpackBuildWorker: true,
-//     parallelServerBuildTraces: true,
-//     parallelServerCompiles: true,
-//   },
-// }
-
-// mergeConfig(nextConfig, userConfig)
-
-// function mergeConfig(nextConfig, userConfig) {
-//   if (!userConfig) {
-//     return
-//   }
-
-//   for (const key in userConfig) {
-//     if (
-//       typeof nextConfig[key] === 'object' &&
-//       !Array.isArray(nextConfig[key])
-//     ) {
-//       nextConfig[key] = {
-//         ...nextConfig[key],
-//         ...userConfig[key],
-//       }
-//     } else {
-//       nextConfig[key] = userConfig[key]
-//     }
-//   }
-// }
-
-// export default nextConfig
-
 let userConfig = undefined
 try {
-  userConfig = await import('./v0-user-next.config')
+  // try to import ESM first
+  userConfig = await import('./v0-user-next.config.mjs')
 } catch (e) {
-  // ignore error
+  try {
+    // fallback to CJS import
+    userConfig = await import("./v0-user-next.config");
+  } catch (innerError) {
+    // ignore error
+  }
 }
 
 /** @type {import('next').NextConfig} */
@@ -63,49 +20,32 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,  // Good for static exports
+    unoptimized: true,
   },
-  // Remove or modify these experimental flags:
   experimental: {
-    // webpackBuildWorker: false,  // Disable if causing issues
-    // parallelServerBuildTraces: false,
-    // parallelServerCompiles: false,
-    workerThreads: false,  // Try disabling worker threads
+    webpackBuildWorker: true,
+    parallelServerBuildTraces: true,
+    parallelServerCompiles: true,
   },
-  // Add memory management options:
-  webpack: (config, { isServer, dev }) => {
-    if (!isServer && !dev) {
-      config.optimization.splitChunks = {
-        chunks: 'all',
-        maxSize: 244 * 1024, // 244 KiB
-      }
-    }
-    return config
-  }
 }
 
-function mergeConfig(nextConfig, userConfig) {
-  if (!userConfig) {
-    return nextConfig
-  }
+if (userConfig) {
+  // ESM imports will have a "default" property
+  const config = userConfig.default || userConfig
 
-  for (const key in userConfig) {
+  for (const key in config) {
     if (
       typeof nextConfig[key] === 'object' &&
-      !Array.isArray(nextConfig[key]) &&
-      userConfig[key] &&
-      typeof userConfig[key] === 'object'
+      !Array.isArray(nextConfig[key])
     ) {
       nextConfig[key] = {
         ...nextConfig[key],
-        ...userConfig[key],
+        ...config[key],
       }
     } else {
-      nextConfig[key] = userConfig[key]
+      nextConfig[key] = config[key]
     }
   }
-
-  return nextConfig
 }
 
-export default mergeConfig(nextConfig, userConfig)
+export default nextConfig
